@@ -22,6 +22,18 @@
         border-radius: 15px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       }
+      /* .container2 {
+        max-width: 500px;
+        margin: auto;
+        background: #00796b;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        color: #e0f7fa;
+        font-size: xx-large;
+        font-weight: bolder;
+      } */
 
       h2 {
         text-align: center;
@@ -59,6 +71,7 @@
       .lang-switch {
         text-align: center;
         margin-bottom: 15px;
+        padding-top: 15px;
       }
 
       .lang-switch button {
@@ -97,6 +110,7 @@
     </style>
   </head>
   <body>
+    <!-- <div class="container2">ALBEK</div> -->
     <div class="lang-switch">
       <button onclick="setLang('en')">
         <img src="https://flagcdn.com/gb.svg" alt="EN" /> English
@@ -141,8 +155,20 @@
       <!-- <label id="daysLabel">kWh Fiyatı: 2.33 TL</label> -->
       <div class="result" id="resultBox">Results will appear here...</div>
     </div>
-    <div></div>
+    <footer
+      style="text-align: center; margin-top: 40px; font-size: 14px; color: #666"
+    >
+      <hr style="margin-bottom: 10px" />
+      <p>🛠️ Developed with ❤️ by <strong>ALBEK</strong></p>
+    </footer>
+
     <script>
+      const footerText = {
+        en: "🛠️ Developed with ❤️ by ALBEK",
+        ar: " ALBEK ❤️ تمت البرمجة بواسطة 🛠️",
+        tr: "🛠️ ALBEK tarafından ❤️ geliştirildi",
+      };
+
       const langText = {
         en: {
           dir: "ltr",
@@ -218,7 +244,7 @@
         document.getElementById("hoursLabel").textContent = text.hoursLabel;
         document.getElementById("daysLabel").textContent = text.daysLabel;
         document.getElementById("priceLabel").textContent = text.priceLabel;
-
+        document.querySelector("footer p").innerHTML = footerText[lang];
         calculate();
       }
 
@@ -229,6 +255,20 @@
         const hours = parseFloat(document.getElementById("hours").value);
         const days = parseFloat(document.getElementById("days").value);
         const price = parseFloat(document.getElementById("price").value);
+
+        // 🔒 تحقق من صحة القيم
+        if (
+          isNaN(value) ||
+          isNaN(hours) ||
+          isNaN(days) ||
+          isNaN(price) ||
+          (inputType === "amp" && isNaN(voltage))
+        ) {
+          document.getElementById("resultBox").innerHTML = `
+      ⚠️ <strong>Please enter valid numbers in all fields.</strong>
+    `;
+          return;
+        }
 
         let powerKW = 0;
         if (inputType === "amp") {
