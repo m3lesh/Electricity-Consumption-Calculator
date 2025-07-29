@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electricity Consumption Calculator</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f0f4f8;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        color: #00796b;
+      }
+
+      label {
+        display: block;
+        margin-top: 12px;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+
+      .result {
+        margin-top: 25px;
+        background: #e0f7fa;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .lang-switch {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .lang-switch button {
+        margin: 0 5px;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #00796b;
+        color: white;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+        .container {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="lang-switch">
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('ar')">العربية</button>
+        <button onclick="setLang('tr')">Türkçe</button>
+      </div>
+
+      <h2 id="title">Electricity Consumption Calculator</h2>
+
+      <label id="inputTypeLabel">Input Type:</label>
+      <select id="inputType">
+        <option value="watt">Watt (W)</option>
+        <option value="kw">Kilowatt (kW)</option>
+        <option value="amp">Ampere (A)</option>
+      </select>
+
+      <label id="valueLabel">Value:</label>
+      <input type="number" id="value" value="990" />
+
+      <div id="voltageSection" style="display: none">
+        <label id="voltageLabel">Voltage:</label>
+        <select id="voltage">
+          <option value="220">220 V</option>
+          <option value="380">380 V</option>
+        </select>
+      </div>
+
+      <label id="hoursLabel">Hours per Day:</label>
+      <input type="number" id="hours" value="8" />
+
+      <label id="daysLabel">Number of Days:</label>
+      <input type="number" id="days" value="30" />
+
+      <label id="priceLabel">Electricity Price (TL / kWh):</label>
+      <input type="number" id="price" value="2.33" step="0.01" />
+
+      <div class="result" id="resultBox">Results will appear here...</div>
+    </div>
+
+    <script>
+      const langText = {
+        en: {
+          title: "Electricity Consumption Calculator",
+          inputTypeLabel: "Input Type:",
+          valueLabel: "Value:",
+          voltageLabel: "Voltage:",
+          hoursLabel: "Hours per Day:",
+          daysLabel: "Number of Days:",
+          priceLabel: "Electricity Price (TL / kWh):",
+          results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
+        ✅ <strong>Results:</strong><br>
+        🔋 Daily Consumption: <strong>${kWh.toFixed(2)}</strong> kWh<br>
+        💵 Daily Cost: <strong>${dailyCost.toFixed(2)}</strong> TL<br>
+        📦 Total Consumption (${unit} days): <strong>${totalKWh.toFixed(
+            2
+          )}</strong> kWh<br>
+        💰 Total Cost: <strong>${totalCost.toFixed(2)}</strong> TL
+      `,
+        },
+        ar: {
+          title: "حاسبة استهلاك الكهرباء",
+          inputTypeLabel: "نوع الإدخال:",
+          valueLabel: "القيمة:",
+          voltageLabel: "الجهد الكهربائي:",
+          hoursLabel: "عدد ساعات التشغيل يوميًا:",
+          daysLabel: "عدد الأيام:",
+          priceLabel: "سعر الكهرباء (ليرة / كيلوواط):",
+          results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
+        ✅ <strong>النتائج:</strong><br>
+        🔋 الاستهلاك اليومي: <strong>${kWh.toFixed(2)}</strong> ك.و.س<br>
+        💵 التكلفة اليومية: <strong>${dailyCost.toFixed(2)}</strong> ل.ت<br>
+        📦 إجمالي الاستهلاك (${unit} يوم): <strong>${totalKWh.toFixed(
+            2
+          )}</strong> ك.و.س<br>
+        💰 التكلفة الإجمالية: <strong>${totalCost.toFixed(2)}</strong> ل.ت
+      `,
+        },
+        tr: {
+          title: "Elektrik Tüketim Hesaplayıcı",
+          inputTypeLabel: "Giriş Türü:",
+          valueLabel: "Değer:",
+          voltageLabel: "Voltaj:",
+          hoursLabel: "Günlük Çalışma Saati:",
+          daysLabel: "Gün Sayısı:",
+          priceLabel: "Elektrik Fiyatı (TL / kWh):",
+          results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
+        ✅ <strong>Sonuçlar:</strong><br>
+        🔋 Günlük Tüketim: <strong>${kWh.toFixed(2)}</strong> kWh<br>
+        💵 Günlük Maliyet: <strong>${dailyCost.toFixed(2)}</strong> TL<br>
+        📦 Toplam Tüketim (${unit} gün): <strong>${totalKWh.toFixed(
+            2
+          )}</strong> kWh<br>
+        💰 Toplam Maliyet: <strong>${totalCost.toFixed(2)}</strong> TL
+      `,
+        },
+      };
+
+      let currentLang = "en";
+
+      function setLang(lang) {
+        currentLang = lang;
+        const text = langText[lang];
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+        document.getElementById("title").textContent = text.title;
+        document.getElementById("inputTypeLabel").textContent =
+          text.inputTypeLabel;
+        document.getElementById("valueLabel").textContent = text.valueLabel;
+        document.getElementById("voltageLabel").textContent = text.voltageLabel;
+        document.getElementById("hoursLabel").textContent = text.hoursLabel;
+        document.getElementById("daysLabel").textContent = text.daysLabel;
+        document.getElementById("priceLabel").textContent = text.priceLabel;
+
+        calculate();
+      }
+
+      function calculate() {
+        const inputType = document.getElementById("inputType").value;
+        const value = parseFloat(document.getElementById("value").value);
+        const voltage = parseFloat(document.getElementById("voltage").value);
+        const hours = parseFloat(document.getElementById("hours").value);
+        const days = parseFloat(document.getElementById("days").value);
+        const price = parseFloat(document.getElementById("price").value);
+
+        let powerKW = 0;
+
+        if (inputType === "amp") {
+          powerKW = (value * voltage) / 1000;
+        } else if (inputType === "watt") {
+          powerKW = value / 1000;
+        } else {
+          powerKW = value;
+        }
+
+        const dailyKWh = powerKW * hours;
+        const totalKWh = dailyKWh * days;
+        const dailyCost = dailyKWh * price;
+        const totalCost = dailyCost * days;
+
+        document.getElementById("resultBox").innerHTML = langText[
+          currentLang
+        ].results(dailyKWh, dailyCost, totalKWh, totalCost, days);
+      }
+
+      document.querySelectorAll("input, select").forEach((el) => {
+        el.addEventListener("input", () => {
+          if (el.id === "inputType") {
+            const type = el.value;
+            document.getElementById("voltageSection").style.display =
+              type === "amp" ? "block" : "none";
+          }
+          localStorage.setItem(el.id, el.value);
+          calculate();
+        });
+        // تحميل القيم المحفوظة
+        if (localStorage.getItem(el.id)) {
+          el.value = localStorage.getItem(el.id);
+        }
+      });
+
+      setLang("en");
+    </script>
+  </body>
+</html>
