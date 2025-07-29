@@ -45,12 +45,15 @@
       }
 
       .result {
-        margin-top: 25px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding: 20px 18px;
         background: #e0f7fa;
-        padding: 15px;
-        border-radius: 10px;
-        font-size: 16px;
-        line-height: 1.7;
+        border-radius: 12px;
+        font-size: 17px;
+        line-height: 1.9;
+        color: #004d40;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
 
       .lang-switch {
@@ -59,18 +62,31 @@
       }
 
       .lang-switch button {
-        margin: 0 5px;
-        padding: 6px 12px;
-        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 110px;
+        height: 40px;
+        margin: 4px;
+        padding: 0 8px;
+        font-size: 15px;
+        font-weight: 600;
         border: none;
         border-radius: 8px;
         background-color: #00796b;
         color: white;
         cursor: pointer;
+        transition: background-color 0.2s ease;
       }
 
       .lang-switch button:hover {
         background-color: #004d40;
+      }
+
+      .lang-switch button img {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
       }
 
       @media (max-width: 480px) {
@@ -82,9 +98,15 @@
   </head>
   <body>
     <div class="lang-switch">
-      <button onclick="setLang('en')">🇬🇧 English</button>
-      <button onclick="setLang('ar')">🇸🇦 العربية</button>
-      <button onclick="setLang('tr')">🇹🇷 Türkçe</button>
+      <button onclick="setLang('en')">
+        <img src="https://flagcdn.com/gb.svg" alt="EN" /> English
+      </button>
+      <button onclick="setLang('ar')">
+        <img src="https://flagcdn.com/sa.svg" alt="AR" /> العربية
+      </button>
+      <button onclick="setLang('tr')">
+        <img src="https://flagcdn.com/tr.svg" alt="TR" /> Türkçe
+      </button>
     </div>
 
     <div class="container" id="main">
@@ -116,10 +138,10 @@
 
       <label id="priceLabel">Electricity Price (TL / kWh):</label>
       <input type="number" id="price" value="2.33" step="0.01" />
-
+      <!-- <label id="daysLabel">kWh Fiyatı: 2.33 TL</label> -->
       <div class="result" id="resultBox">Results will appear here...</div>
     </div>
-
+    <div></div>
     <script>
       const langText = {
         en: {
@@ -130,15 +152,15 @@
           voltageLabel: "Voltage:",
           hoursLabel: "Hours per Day:",
           daysLabel: "Number of Days:",
-          priceLabel: "Electricity Price (TL / kWh):",
+          priceLabel: "Electricity Price (kWh):",
           results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
-        ✅ <strong>Results:</strong><br>
+        ✅ <strong >Results:</strong><br>
         🔋 Daily Consumption: <strong>${kWh.toFixed(2)}</strong> kWh<br>
-        💵 Daily Cost: <strong>${dailyCost.toFixed(2)}</strong> TL<br>
+        💵 Daily Cost: <strong>${dailyCost.toFixed(2)}</strong> <br>
         📦 Total Consumption (${unit} days): <strong>${totalKWh.toFixed(
             2
           )}</strong> kWh<br>
-        💰 Total Cost: <strong>${totalCost.toFixed(2)}</strong> TL
+        💰 Total Cost: <strong>${totalCost.toFixed(2)}</strong> 
       `,
         },
         ar: {
@@ -149,15 +171,15 @@
           voltageLabel: "الجهد الكهربائي:",
           hoursLabel: "عدد ساعات التشغيل يوميًا:",
           daysLabel: "عدد الأيام:",
-          priceLabel: "سعر الكهرباء (ليرة / كيلوواط):",
+          priceLabel: "سعر الكهرباء (kWh):",
           results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
         ✅ <strong>النتائج:</strong><br>
-        🔋 الاستهلاك اليومي: <strong>${kWh.toFixed(2)}</strong> ك.و.س<br>
-        💵 التكلفة اليومية: <strong>${dailyCost.toFixed(2)}</strong> ل.ت<br>
+        🔋 الاستهلاك اليومي: <strong>${kWh.toFixed(2)}</strong> kWh<br>
+        💵 التكلفة اليومية: <strong>${dailyCost.toFixed(2)}</strong> <br>
         📦 إجمالي الاستهلاك (${unit} يوم): <strong>${totalKWh.toFixed(
             2
-          )}</strong> ك.و.س<br>
-        💰 التكلفة الإجمالية: <strong>${totalCost.toFixed(2)}</strong> ل.ت
+          )}</strong> kWh<br>
+        💰 التكلفة الإجمالية: <strong>${totalCost.toFixed(2)}</strong> 
       `,
         },
         tr: {
@@ -168,7 +190,7 @@
           voltageLabel: "Voltaj:",
           hoursLabel: "Günlük Çalışma Saati:",
           daysLabel: "Gün Sayısı:",
-          priceLabel: "Elektrik Fiyatı (TL / kWh):",
+          priceLabel: "Elektrik Fiyatı (kWh):",
           results: (kWh, dailyCost, totalKWh, totalCost, unit) => `
         ✅ <strong>Sonuçlar:</strong><br>
         🔋 Günlük Tüketim: <strong>${kWh.toFixed(2)}</strong> kWh<br>
