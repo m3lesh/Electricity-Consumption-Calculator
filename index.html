@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,7 @@
         margin: 0;
         padding: 20px;
         color: #333;
+        transition: direction 0.3s ease;
       }
 
       .container {
@@ -54,23 +55,25 @@
 
       .lang-switch {
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
 
       .lang-switch button {
         margin: 0 5px;
-        padding: 5px 10px;
+        padding: 6px 12px;
+        font-size: 16px;
         border: none;
-        border-radius: 5px;
-        cursor: pointer;
+        border-radius: 8px;
         background-color: #00796b;
         color: white;
+        cursor: pointer;
+      }
+
+      .lang-switch button:hover {
+        background-color: #004d40;
       }
 
       @media (max-width: 480px) {
-        body {
-          padding: 10px;
-        }
         .container {
           padding: 15px;
         }
@@ -78,13 +81,13 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="lang-switch">
-        <button onclick="setLang('en')">English</button>
-        <button onclick="setLang('ar')">العربية</button>
-        <button onclick="setLang('tr')">Türkçe</button>
-      </div>
+    <div class="lang-switch">
+      <button onclick="setLang('en')">🇬🇧 English</button>
+      <button onclick="setLang('ar')">🇸🇦 العربية</button>
+      <button onclick="setLang('tr')">🇹🇷 Türkçe</button>
+    </div>
 
+    <div class="container" id="main">
       <h2 id="title">Electricity Consumption Calculator</h2>
 
       <label id="inputTypeLabel">Input Type:</label>
@@ -120,6 +123,7 @@
     <script>
       const langText = {
         en: {
+          dir: "ltr",
           title: "Electricity Consumption Calculator",
           inputTypeLabel: "Input Type:",
           valueLabel: "Value:",
@@ -138,6 +142,7 @@
       `,
         },
         ar: {
+          dir: "rtl",
           title: "حاسبة استهلاك الكهرباء",
           inputTypeLabel: "نوع الإدخال:",
           valueLabel: "القيمة:",
@@ -156,6 +161,7 @@
       `,
         },
         tr: {
+          dir: "ltr",
           title: "Elektrik Tüketim Hesaplayıcı",
           inputTypeLabel: "Giriş Türü:",
           valueLabel: "Değer:",
@@ -180,8 +186,7 @@
       function setLang(lang) {
         currentLang = lang;
         const text = langText[lang];
-        document.documentElement.lang = lang;
-        document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+        document.getElementById("main").setAttribute("dir", text.dir);
 
         document.getElementById("title").textContent = text.title;
         document.getElementById("inputTypeLabel").textContent =
@@ -204,7 +209,6 @@
         const price = parseFloat(document.getElementById("price").value);
 
         let powerKW = 0;
-
         if (inputType === "amp") {
           powerKW = (value * voltage) / 1000;
         } else if (inputType === "watt") {
@@ -223,23 +227,25 @@
         ].results(dailyKWh, dailyCost, totalKWh, totalCost, days);
       }
 
+      // Show voltage selector only if Ampere is selected
+      document.getElementById("inputType").addEventListener("change", () => {
+        const type = document.getElementById("inputType").value;
+        document.getElementById("voltageSection").style.display =
+          type === "amp" ? "block" : "none";
+        calculate();
+      });
+
       document.querySelectorAll("input, select").forEach((el) => {
         el.addEventListener("input", () => {
-          if (el.id === "inputType") {
-            const type = el.value;
-            document.getElementById("voltageSection").style.display =
-              type === "amp" ? "block" : "none";
-          }
           localStorage.setItem(el.id, el.value);
           calculate();
         });
-        // تحميل القيم المحفوظة
         if (localStorage.getItem(el.id)) {
           el.value = localStorage.getItem(el.id);
         }
       });
 
-      setLang("en");
+      setLang("en"); // default language
     </script>
   </body>
 </html>
