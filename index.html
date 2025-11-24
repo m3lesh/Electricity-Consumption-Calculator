@@ -1,0 +1,76 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ALBEK Calculators</title>
+
+  <meta name="author" content="ALBEK" />
+  <meta name="description"
+    content="A versatile toolkit with calculators for electricity consumption, wire sizing, solar systems. Available in 3 languages." />
+  <meta property="og:title" content="ALBEK Calculators & Tools" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/m3lesh/Electricity-Consumption-Calculator/refs/heads/main/albek.png" />
+  <link rel="icon"
+    href="https://raw.githubusercontent.com/m3lesh/Electricity-Consumption-Calculator/refs/heads/main/%E2%80%8F%E2%80%8Ffavicon.ico"
+    type="image/x-icon" />
+  <link rel="icon"
+    href="https://raw.githubusercontent.com/m3lesh/Electricity-Consumption-Calculator/refs/heads/main/favicon.png"
+    type="image/png" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="lang-switch">
+    <button onclick="setLang('en')">
+      <img src="https://flagcdn.com/gb.svg" alt="EN" /> English
+    </button>
+    <button onclick="setLang('ar')">
+      <img src="https://flagcdn.com/sa.svg" alt="AR" /> العربية
+    </button>
+    <button onclick="setLang('tr')">
+      <img src="https://flagcdn.com/tr.svg" alt="TR" /> Türkçe
+    </button>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Calculator Tabs">
+    <button id="tab-electricity" class="active" role="tab" data-page="electricity">
+      Electricity Calculator
+    </button>
+    <button id="tab-wire" role="tab" data-page="wire">
+      Wire & Breaker Calculator
+    </button>
+    <button id="tab-solar" role="tab" data-page="solar">
+      Solar System Calculator
+    </button>
+    <button id="tab-hvac" role="tab" data-page="hvac">
+      HVAC Calculator
+    </button>
+  </div>
+
+  <div class="container" id="main">
+    <div id="content-container"></div>
+  </div>
+
+  <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #666">
+    <hr style="margin-bottom: 10px" />
+
+    <p class="visitor-stats">
+      <span id="total-visitors-label"></span>:
+      <span id="total-visitor-count" class="visitor-counter">...</span>
+      <br />
+      <span id="today-visitors-label"></span>:
+      <span id="today-visitor-count" class="visitor-counter">...</span>
+    </p>
+
+    <p id="developed-by-text"></p>
+    <p id="copyright-text"></p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+
+</html>

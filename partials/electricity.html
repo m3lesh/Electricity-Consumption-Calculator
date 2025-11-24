@@ -1,0 +1,27 @@
+<!-- electricity.html -->
+
+<section id="electricity-section" role="tabpanel" aria-labelledby="tab-electricity">
+  <h2 id="title">Electricity Consumption Calculator</h2>
+  <label id="inputTypeLabel">Input Type:</label>
+  <select id="inputType">
+    <option value="watt">Watt (W)</option>
+    <option value="kw">Kilowatt (kW)</option>
+    <option value="amp">Ampere (A)</option>
+  </select>
+  <label id="valueLabel">Value:</label>
+  <input type="number" id="value" value="990" />
+  <div id="voltageSection" class="hidden">
+    <label id="voltageLabel">Voltage:</label>
+    <select id="voltage">
+      <option value="220">220 V</option>
+      <option value="380">380 V</option>
+    </select>
+  </div>
+  <label id="hoursLabel">Hours per Day:</label>
+  <input type="number" id="hours" value="8" />
+  <label id="daysLabel">Number of Days:</label>
+  <input type="number" id="days" value="30" />
+  <label id="priceLabel">Electricity Price (TL / kWh):</label>
+  <input type="number" id="price" value="2.33" step="0.01" />
+  <div class="result" id="resultBox">Results will appear here...</div>
+</section>

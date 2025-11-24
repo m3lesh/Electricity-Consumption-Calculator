@@ -1,0 +1,182 @@
+<!-- hvac.html -->
+
+
+<section id="hvac-section" role="tabpanel" aria-labelledby="tab-hvac">
+  <h2 id="hvacTitle">HVAC Cooling & Heating Load Calculator</h2>
+
+  <!-- Calculation Type Selection -->
+  <div class="input-group">
+    <label id="calculationTypeLabel">Calculation Type:</label>
+    <select id="calculationType">
+      <option value="cooling">Cooling</option>
+      <option value="heating">Heating</option>
+    </select>
+  </div>
+
+  <!-- Calculation Mode Selection -->
+  <div class="input-group">
+    <label id="calculationModeLabel">Calculation Mode:</label>
+    <select id="calculationMode">
+      <option value="quick">Quick Calculation</option>
+      <option value="professional">Professional Calculation</option>
+    </select>
+  </div>
+
+  <!-- Basic Inputs -->
+  <div class="input-group">
+    <label id="roomAreaLabel">Room Area (m²):</label>
+    <input type="number" id="roomArea" value="20" min="1" step="0.1">
+  </div>
+
+  <div class="input-group">
+    <label id="roomHeightLabel">Ceiling Height (m):</label>
+    <input type="number" id="roomHeight" value="2.7" min="1" step="0.1">
+  </div>
+
+  <div class="input-group">
+    <label id="insulationLabel">Insulation Quality:</label>
+    <select id="insulation">
+      <option value="excellent">Excellent [105 BTU/m³]</option>
+      <option value="good" selected>Good [127 BTU/m³]</option>
+      <option value="medium">Medium [150 BTU/m³]</option>
+      <option value="poor">Poor [187 BTU/m³]</option>
+      <option value="very-poor">Very Poor [225 BTU/m³]</option>
+    </select>
+  </div>
+
+  <!-- Climate Conditions - Dynamic based on calculation type -->
+  <div id="coolingClimate" class="climate-section">
+    <div class="input-group">
+      <label id="outdoorTempLabel">Outdoor Temperature (°C):</label>
+      <input type="number" id="outdoorTemp" value="35" min="-50" max="60">
+    </div>
+    <div class="input-group">
+      <label id="indoorTempLabel">Indoor Desired Temperature (°C):</label>
+      <input type="number" id="indoorTemp" value="24" min="16" max="30">
+    </div>
+    <div class="input-group">
+      <label id="humidityLabel">Outdoor Humidity (%):</label>
+      <input type="number" id="humidity" value="60" min="0" max="100">
+    </div>
+  </div>
+
+  <div id="heatingClimate" class="climate-section hidden">
+    <div class="input-group">
+      <label id="outdoorWinterTempLabel">Outdoor Winter Temperature (°C):</label>
+      <input type="number" id="outdoorWinterTemp" value="-5" min="-50" max="20">
+    </div>
+    <div class="input-group">
+      <label id="indoorHeatingTempLabel">Indoor Heating Temperature (°C):</label>
+      <input type="number" id="indoorHeatingTemp" value="22" min="16" max="30">
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label id="sunExposureLabel">Sun Exposure:</label>
+    <select id="sunExposure">
+      <option value="low">Low</option>
+      <option value="medium" selected>Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
+
+  <div class="input-group">
+    <label id="peopleLabel">Number of People:</label>
+    <input type="number" id="peopleCount" value="2" min="0">
+  </div>
+
+  <div class="input-group">
+    <label id="windowsLabel">Number of Windows:</label>
+    <input type="number" id="windowsCount" value="2" min="0">
+  </div>
+
+  <div class="input-group">
+    <label id="appliancesLabel">Internal Appliances (Watts):</label>
+    <input type="number" id="appliancesW" value="300" min="0">
+  </div>
+
+  <!-- Advanced Options (Initially Hidden) -->
+  <div id="advancedOptions" class="hidden">
+    <h3 id="advancedTitle">Advanced Professional Options</h3>
+    
+    <!-- Thermal Insulation -->
+    <div class="advanced-section">
+      <h4 id="thermalLabel">Thermal Insulation</h4>
+      <div class="input-group">
+        <label id="wallTypeLabel">Wall Type:</label>
+        <select id="wallType">
+          <option value="brick-insulated">Brick with insulation</option>
+          <option value="brick-uninsulated">Brick no insulation</option>
+          <option value="concrete">Concrete</option>
+          <option value="wood">Wood</option>
+          <option value="metal">Metal</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label id="windowTypeLabel">Window Type:</label>
+        <select id="windowType">
+          <option value="single">Single Glass [5.7 U(W/m²·K)]</option>
+          <option value="double" selected>Double Glass [2.8 U(W/m²·K)]</option>
+          <option value="triple">Triple Glass [1.8 U(W/m²·K)]</option>
+          <option value="low-e">Low-E Glass [1.4 U(W/m²·K)]</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label id="frameTypeLabel">Frame Type:</label>
+        <select id="frameType">
+          <option value="wood">Wood</option>
+          <option value="pvc" selected>PVC</option>
+          <option value="aluminum">Aluminum</option>
+          <option value="aluminum-thermal">Aluminum with thermal break</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label id="roomDirectionLabel">Room Direction:</label>
+        <select id="roomDirection">
+          <option value="north">North</option>
+          <option value="south">South</option>
+          <option value="east">East</option>
+          <option value="west">West</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Ventilation -->
+    <div class="advanced-section">
+      <h4 id="ventilationLabel">Ventilation & Air Changes</h4>
+      <div class="input-group">
+        <label id="roomTypeLabel">Room Type:</label>
+        <select id="roomType">
+          <option value="bedroom">Bedroom</option>
+          <option value="living" selected>Living Room</option>
+          <option value="office">Office</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="server">Server Room</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label id="achLabel">Air Changes per Hour (ACH):</label>
+        <input type="number" id="ach" value="1.5" min="0.1" max="10" step="0.1">
+      </div>
+    </div>
+
+    <!-- People Activity -->
+    <div class="input-group">
+      <label id="peopleActivityLabel">People Activity Level:</label>
+      <select id="peopleActivity">
+        <option value="seated">Seated (Resting)</option>
+        <option value="light-office" selected>Light Office Work</option>
+        <option value="standing">Standing/Light Work</option>
+        <option value="moderate">Moderate Work</option>
+        <option value="heavy">Heavy Work</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Results Section -->
+  <div class="result" id="hvacResultBox">
+    <div id="quickResults"></div>
+    <div id="professionalResults" class="hidden"></div>
+    <div id="loadBreakdown" class="hidden"></div>
+  </div>
+</section>

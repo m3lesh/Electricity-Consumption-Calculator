@@ -1,0 +1,64 @@
+# اسم الـ Workflow
+name: Log Detailed Website Visitors
+
+# المشغلات
+on:
+# للتشغيل مرة واحدة يوميًا في منتصف الليل
+  schedule:
+    - cron: '0 0 * * *'
+  # يعمل مرة كل ساعة
+  # schedule:
+  #   - cron: '0 * * * *'
+  # At every minute.
+  # schedule:
+  #   - cron: '*/1 * * * *'
+  # يعمل مرة كل ساعة
+  # schedule:
+  #   - cron: "0 * * * *"
+  # يسمح بالتشغيل اليدوي
+  workflow_dispatch:
+
+# المهام
+jobs:
+  log-visitor-count:
+    runs-on: ubuntu-latest
+
+    # ▼▼▼ هذا هو الجزء الأهم الذي يجب التأكد من وجوده ▼▼▼
+    # إعطاء صلاحية للمهمة بأكملها للكتابة في المستودع
+    permissions:
+      contents: write
+
+    steps:
+      # 1. جلب نسخة من كود المستودع
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. جلب عدد الزوار
+      - name: Fetch visitor counts
+        id: fetch_counts
+        run: |
+          API_RESPONSE=$(curl -s 'https://hitscounter.dev/api/hit?output=json&url=https%3A%2F%2Fm3lesh.github.io%2FElectricity-Consumption-Calculator%2F&tz=Turkey')
+          echo "total_hits=$(echo $API_RESPONSE | jq '.total_hits')" >> "$GITHUB_OUTPUT"
+          echo "today_hits=$(echo $API_RESPONSE | jq '.today_hits')" >> "$GITHUB_OUTPUT"
+
+      # 3. تحديث ملف السجل
+      - name: Append to log file
+        run: |
+          if [ ! -f "detailed_visits_log.txt" ]; then
+            echo "Timestamp,Total Hits,Today's Hits" > detailed_visits_log.txt
+          fi
+          # echo "$(date),${{ steps.fetch_counts.outputs.total_hits }},${{ steps.fetch_counts.outputs.today_hits }}" >> detailed_visits_log.txt
+          echo "$(date) - Total Hits: ${{ steps.fetch_counts.outputs.total_hits }} - Today's Hits: ${{ steps.fetch_counts.outputs.today_hits }}" >> detailed_visits_log.txt
+      # 4. عمل Commit و Push للتغييرات تلقائيًا
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          # إضافة الملف الجديد أو المحدث
+          git add detailed_visits_log.txt
+
+          # عمل commit مع رسالة توضح التاريخ
+          git commit -m "Update detailed visitor log" || exit 0
+
+          # دفع التغييرات إلى المستودع
+          git push

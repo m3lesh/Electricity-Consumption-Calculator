@@ -1,0 +1,41 @@
+<!-- solar.html -->
+
+<section id="solar-section" role="tabpanel" aria-labelledby="tab-solar">
+  <h2 id="solarTitle">☀️ Solar System Calculator</h2>
+
+  <div class="solar-inputs-container">
+    <div class="solar-column">
+      <h3 id="loadsTitle">1. Select Your Loads</h3>
+      <div id="loadsChecklist"></div>
+    </div>
+
+    <div class="solar-column">
+      <h3 id="paramsTitle">2. System Parameters</h3>
+      <label id="batteryTypeLabel">Battery Type:</label>
+      <select id="batteryType"></select>
+
+      <label id="systemVoltageLabel">System Voltage:</label>
+      <select id="systemVoltage">
+        <option value="12">12 V</option>
+        <option value="24" selected>24 V</option>
+        <option value="48">48 V</option>
+      </select>
+
+      <label id="lossesLabel">System Losses (%):</label>
+      <input type="number" id="lossesPercent" value="15" />
+
+      <label id="gridHoursLabel">Daily Grid/Generator Charging Hours:</label>
+      <input type="number" id="gridHours" value="0" />
+
+      <label id="autonomyLabel">Days of Autonomy (cloudy days):</label>
+      <input type="number" id="autonomyDays" value="2" />
+
+      <label id="sunHoursLabel">Peak Sun Hours per Day:</label>
+      <input type="number" id="sunHours" value="5" />
+    </div>
+  </div>
+
+  <div class="results" id="solarResults">
+    Select your loads to see the required system size.
+  </div>
+</section>
